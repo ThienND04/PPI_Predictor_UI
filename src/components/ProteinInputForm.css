@@ -1,0 +1,26 @@
+form {
+    size: 100%;
+}
+
+form > div {
+    display: flex;
+    margin-bottom: 16px;
+}
+
+label {
+    text-align: left;
+    vertical-align: middle;
+    margin-bottom: 8px;
+    font-weight: bold;
+    padding-right: 10px;
+    flex: 1;
+}
+
+.input {
+    /* width: 100%; */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex: 3;
+}
+
