@@ -187,8 +187,8 @@ export default function HistoryPage() {
                 {/* Back to Home Button */}
                 <div className="mt-8 text-center">
                     <button
-                        onClick={() => navigate("/home")}
-                        className="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-200 shadow-lg hover:shadow-xl"
+                        onClick={() => navigate("/")}
+                        className="bg-gray-600 hover:bg-gray-700 text-black font-semibold py-3 px-8 rounded-lg transition duration-200 shadow-lg hover:shadow-xl"
                     >
                         <span className="flex items-center justify-center">
                             <span className="mr-2">🏠</span>
