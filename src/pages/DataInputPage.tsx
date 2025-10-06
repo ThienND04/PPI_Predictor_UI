@@ -1,26 +1,45 @@
-import ProteinInputForm from "../components/ProteinInputForm";
-// import FileUploader from "../components/FileUploader";
+import { useState } from 'react';
+import ManualInputForm from '../components/ManualInputForm';
+import UploadFileForm from '../components/UploadFileForm';
+
+type TabType = 'manual' | 'upload';
 
 export default function DataInputPage() {
-  return (
-    <div className="w-full min-h-screen bg-gray-50 overflow-x-hidden pt-16">
-      <div className="w-full max-w-screen-xl mx-auto px-6 py-12">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            Nhập dữ liệu protein
-          </h1>
-          <p className="text-lg text-gray-600">
-            Nhập thông tin ID và chuỗi protein để thực hiện dự đoán tương tác protein-protein
-          </p>
-        </div>
+  const [activeTab, setActiveTab] = useState<TabType>('manual');
 
-        {/* Form Container */}
-        <div className="bg-white rounded-xl shadow-lg p-8">
-          <ProteinInputForm />
-        </div>
-        
-        {/* <FileUploader /> */}
+  const tabs = [
+    { id: 'manual' as TabType, label: 'Nhập thủ công', component: ManualInputForm },
+    { id: 'upload' as TabType, label: 'Upload file', component: UploadFileForm }
+  ];
+
+  const ActiveComponent = tabs.find(tab => tab.id === activeTab)?.component || ManualInputForm;
+
+  return (
+    <div>
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">Dự đoán tương tác Protein-Protein</h1>
+      
+      {/* Tab Navigation */}
+      <div className="border-b border-gray-200 mb-6">
+        <nav className="-mb-px flex space-x-8">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                activeTab === tab.id
+                  ? 'border-b-2 border-blue-600 text-blue-600 font-semibold'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      {/* Tab Content */}
+      <div className="min-h-[400px]">
+        <ActiveComponent />
       </div>
     </div>
   );
