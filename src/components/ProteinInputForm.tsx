@@ -126,7 +126,7 @@ export default function ProteinInputForm() {
                     className={`px-8 py-3 rounded-lg font-semibold text-white transition duration-200 ${
                         loading
                             ? "bg-gray-400 cursor-not-allowed"
-                            : "bg-blue-600 hover:bg-blue-700 hover:shadow-lg"
+                            : "bg-primary-600 hover:bg-primary-700 hover:shadow-lg"
                     }`}
                 >
                     {loading ? (

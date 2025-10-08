@@ -149,7 +149,7 @@ export default function ManualInputForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-sky-300 text-black px-4 py-2 rounded-lg shadow hover:bg-sky-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-primary-600 text-white px-4 py-2 rounded-lg shadow hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? 'Đang thực hiện dự đoán...' : 'Thực hiện dự đoán'}
         </button>
