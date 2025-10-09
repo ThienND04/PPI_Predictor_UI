@@ -54,27 +54,27 @@ export default function LoginPage() {
             subtitle="Chào mừng bạn trở lại"
             footer={(
                 <div className="flex items-center justify-between text-sm">
-                    <Link to="/auth/register" className="text-blue-700 hover:text-blue-800">Chưa có tài khoản? Đăng ký</Link>
-                    <Link to="/auth/forgot-password" className="text-blue-700 hover:text-blue-800">Quên mật khẩu?</Link>
+                    <Link to="/auth/register" className="text-blue-700 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">Chưa có tài khoản? Đăng ký</Link>
+                    <Link to="/auth/forgot-password" className="text-blue-700 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">Quên mật khẩu?</Link>
                 </div>
             )}
         >
             <form onSubmit={onSubmit} className="space-y-4">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Email</label>
                     <input
                         type="email"
-                        className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
+                        className="w-full rounded-lg border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                         placeholder="you@example.com"
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Mật khẩu</label>
                     <input
                         type="password"
-                        className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
+                        className="w-full rounded-lg border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                         placeholder="••••••••"
@@ -83,16 +83,16 @@ export default function LoginPage() {
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-black font-medium py-2 px-4 rounded-lg transition-all duration-200 disabled:opacity-50"
+                    className="w-full mt-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 disabled:opacity-50"
                 >
                     {isLoading ? 'Đang xử lý...' : 'Đăng nhập'}
                 </button>
 
                 {errorMessage && (
-                    <p className="mt-2 text-sm text-red-500 font-medium">{errorMessage}</p>
+                    <p className="mt-2 text-sm text-red-500 dark:text-red-400 font-medium">{errorMessage}</p>
                 )}
                 {successMessage && (
-                    <p className="mt-2 text-sm text-green-500 font-medium">{successMessage}</p>
+                    <p className="mt-2 text-sm text-green-500 dark:text-green-400 font-medium">{successMessage}</p>
                 )}
             </form>
         </AuthCard>

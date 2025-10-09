@@ -58,36 +58,36 @@ export default function ChangePasswordPage() {
       subtitle="Nhập mật khẩu cũ và mật khẩu mới"
       footer={(
         <div className="text-sm text-center">
-          <Link to="/auth/login" className="text-blue-700 hover:text-blue-800">Quay lại đăng nhập</Link>
+          <Link to="/auth/login" className="text-blue-700 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300">Quay lại đăng nhập</Link>
         </div>
       )}
     >
       <form onSubmit={onSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Mật khẩu cũ</label>
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Mật khẩu cũ</label>
           <input
             type="password"
-            className="w-full border border-gray-300 rounded-lg p-2 focus:ring-primary focus:border-primary outline-none"
+            className="w-full border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg p-2 focus:ring-primary focus:border-primary outline-none"
             value={oldPassword}
             onChange={e => setOldPassword(e.target.value)}
             placeholder="••••••••"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Mật khẩu mới</label>
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Mật khẩu mới</label>
           <input
             type="password"
-            className="w-full border border-gray-300 rounded-lg p-2 focus:ring-primary focus:border-primary outline-none"
+            className="w-full border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg p-2 focus:ring-primary focus:border-primary outline-none"
             value={newPassword}
             onChange={e => setNewPassword(e.target.value)}
             placeholder="••••••••"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Xác nhận mật khẩu mới</label>
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Xác nhận mật khẩu mới</label>
           <input
             type="password"
-            className="w-full border border-gray-300 rounded-lg p-2 focus:ring-primary focus:border-primary outline-none"
+            className="w-full border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-lg p-2 focus:ring-primary focus:border-primary outline-none"
             value={confirmPassword}
             onChange={e => setConfirmPassword(e.target.value)}
             placeholder="••••••••"
@@ -96,16 +96,16 @@ export default function ChangePasswordPage() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-black font-medium py-2 px-4 rounded-lg transition-all duration-200 disabled:opacity-50"
+          className="w-full mt-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 disabled:opacity-50"
         >
           {isLoading ? 'Đang xử lý...' : 'Đổi mật khẩu'}
         </button>
         
         {errorMessage && (
-          <p className="mt-2 text-sm text-red-500 font-medium">{errorMessage}</p>
+          <p className="mt-2 text-sm text-red-500 dark:text-red-400 font-medium">{errorMessage}</p>
         )}
         {successMessage && (
-          <p className="mt-2 text-sm text-green-500 font-medium">{successMessage}</p>
+          <p className="mt-2 text-sm text-green-500 dark:text-green-400 font-medium">{successMessage}</p>
         )}
       </form>
     </AuthCard>
