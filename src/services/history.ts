@@ -25,5 +25,13 @@ export function clearHistory() {
     localStorage.removeItem(STORAGE_KEY);
 }
 
+export function removeHistoryById(id: string) {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    const list: HistoryRecord[] = raw ? JSON.parse(raw) : [];
+    const next = list.filter(item => item.id !== id);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    return next;
+}
+
 
 

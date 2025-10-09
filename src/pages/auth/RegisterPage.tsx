@@ -10,30 +10,44 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [successMessage, setSuccessMessage] = useState<string>('');
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    setSuccess(null);
+    setErrorMessage('');
+    setSuccessMessage('');
 
     if (!fullName || !email || !password || !confirmPassword) {
-      setError('Vui lòng nhập đầy đủ thông tin');
+      setErrorMessage('Vui lòng nhập đầy đủ thông tin');
       return;
     }
     if (password !== confirmPassword) {
-      setError('Mật khẩu xác nhận không khớp');
+      setErrorMessage('Mật khẩu xác nhận không khớp');
       return;
     }
 
     setIsLoading(true);
     try {
-      await register({ full_name: fullName, email, password });
-      setSuccess('Đăng ký thành công, vui lòng đăng nhập');
-      setTimeout(() => navigate('/auth/login'), 800);
+      const data = await register({ email, full_name: fullName, password });
+      
+      if (data.error) {
+        setErrorMessage(data.error);
+        setSuccessMessage('');
+        return;
+      }
+      
+      if (data.message === 'User registered successfully') {
+        setSuccessMessage('Đăng ký thành công, vui lòng đăng nhập');
+        setErrorMessage('');
+        setTimeout(() => navigate('/auth/login'), 800);
+      } else {
+        setErrorMessage('Phản hồi không hợp lệ từ server');
+        setSuccessMessage('');
+      }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Đăng ký thất bại');
+      setErrorMessage('Server error. Please try again later.');
+      setSuccessMessage('');
     } finally {
       setIsLoading(false);
     }
@@ -45,7 +59,7 @@ export default function RegisterPage() {
       subtitle="Tạo tài khoản mới"
       footer={(
         <div className="text-sm text-center">
-          <Link to="/auth/login" className="text-emerald-700 hover:text-emerald-800">Đã có tài khoản? Đăng nhập</Link>
+          <Link to="/auth/login" className="text-blue-700 hover:text-blue-800">Đã có tài khoản? Đăng nhập</Link>
         </div>
       )}
     >
@@ -54,7 +68,7 @@ export default function RegisterPage() {
           <label className="block text-sm font-medium text-gray-700 mb-1">Họ và tên</label>
           <input
             type="text"
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400"
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
             value={fullName}
             onChange={e => setFullName(e.target.value)}
             placeholder="Nguyễn Văn A"
@@ -64,7 +78,7 @@ export default function RegisterPage() {
           <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
           <input
             type="email"
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400"
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
             value={email}
             onChange={e => setEmail(e.target.value)}
             placeholder="you@example.com"
@@ -74,7 +88,7 @@ export default function RegisterPage() {
           <label className="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
           <input
             type="password"
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400"
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
             value={password}
             onChange={e => setPassword(e.target.value)}
             placeholder="••••••••"
@@ -84,7 +98,7 @@ export default function RegisterPage() {
           <label className="block text-sm font-medium text-gray-700 mb-1">Xác nhận mật khẩu</label>
           <input
             type="password"
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400"
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
             value={confirmPassword}
             onChange={e => setConfirmPassword(e.target.value)}
             placeholder="••••••••"
@@ -93,13 +107,17 @@ export default function RegisterPage() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-blue-500 text-black font-semibold px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition-colors duration-200 disabled:opacity-50"
+          className="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-black font-medium py-2 px-4 rounded-lg transition-all duration-200 disabled:opacity-50"
         >
-          {isLoading ? 'Đang đăng ký...' : 'Đăng ký'}
+          {isLoading ? 'Đang xử lý...' : 'Đăng ký'}
         </button>
 
-        {error && <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded">{error}</div>}
-        {success && <div className="bg-green-50 border border-green-200 text-green-700 px-3 py-2 rounded">{success}</div>}
+        {errorMessage && (
+          <p className="mt-2 text-sm text-red-500 font-medium">{errorMessage}</p>
+        )}
+        {successMessage && (
+          <p className="mt-2 text-sm text-green-500 font-medium">{successMessage}</p>
+        )}
       </form>
     </AuthCard>
   );

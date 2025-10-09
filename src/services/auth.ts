@@ -1,12 +1,10 @@
-import axios from 'axios';
-
 const API_BASE = import.meta.env.VITE_API_BASE || '';
 
 const buildUrl = (path: string) => (API_BASE ? `${API_BASE}${path}` : path);
 
 export type RegisterInput = {
-  full_name: string;
   email: string;
+  full_name: string;
   password: string;
 };
 
@@ -19,34 +17,49 @@ export type ForgotPasswordInput = {
   email: string;
 };
 
-export type ResetPasswordInput = {
-  email: string;
-  otp_code: string;
+export type ChangePasswordInput = {
+  old_password: string;
   new_password: string;
 };
 
 export async function register(input: RegisterInput) {
-  const url = buildUrl('/api/auth/register');
-  const res = await axios.post(url, input, { headers: { 'Content-Type': 'application/json' } });
-  return res.data;
+  const url = buildUrl('/auth/register');
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(input)
+  });
+  return await res.json();
 }
 
 export async function login(input: LoginInput) {
-  const url = buildUrl('/api/auth/login');
-  const res = await axios.post(url, input, { headers: { 'Content-Type': 'application/json' } });
-  return res.data as { access_token: string; user?: { email?: string; full_name?: string } };
+  const url = buildUrl('/auth/login');
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(input)
+  });
+  return await res.json();
 }
 
 export async function forgotPassword(input: ForgotPasswordInput) {
-  const url = buildUrl('/api/auth/forgot-password');
-  const res = await axios.post(url, input, { headers: { 'Content-Type': 'application/json' } });
-  return res.data;
+  const url = buildUrl('/auth/forgot-password');
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(input)
+  });
+  return await res.json();
 }
 
-export async function resetPassword(input: ResetPasswordInput) {
-  const url = buildUrl('/api/auth/reset-password');
-  const res = await axios.post(url, input, { headers: { 'Content-Type': 'application/json' } });
-  return res.data;
+export async function changePassword(input: ChangePasswordInput) {
+  const url = buildUrl('/auth/change-password');
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(input)
+  });
+  return await res.json();
 }
 
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { removeHistoryById } from "../services/history";
 
 type HistoryItem = {
     id: string;
@@ -102,7 +103,7 @@ export default function HistoryPage() {
                                             Kết quả
                                         </th>
                                         <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Độ tin cậy
+                                            Khả năng tương tác
                                         </th>
                                         <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Hành động
@@ -166,14 +167,35 @@ export default function HistoryPage() {
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                    <button
-                                                        onClick={() => navigate("/results", { 
-                                                            state: { result: item.result } 
-                                                        })}
-                                                        className="text-blue-600 hover:text-blue-900 transition-colors duration-150"
-                                                    >
-                                                        Xem chi tiết
-                                                    </button>
+                                                    <div className="flex items-center gap-3">
+                                                        <button
+                                                            onClick={() => navigate("/results", { 
+                                                                state: { 
+                                                                    result: {
+                                                                        protein1: item.input.id1,
+                                                                        protein2: item.input.id2,
+                                                                        model: "MCAPST5",
+                                                                        score: item.result.score,
+                                                                        label: item.result.label,
+                                                                        threshold: 0.5,
+                                                                        timestamp: new Date(item.timestamp).toISOString()
+                                                                    }
+                                                                } 
+                                                            })}
+                                                            className="text-blue-600 hover:text-blue-900 transition-colors duration-150"
+                                                        >
+                                                            Xem chi tiết
+                                                        </button>
+                                                        <button
+                                                            onClick={() => {
+                                                                const next = removeHistoryById(item.id);
+                                                                setItems((next as HistoryItem[]).sort((a, b) => b.timestamp - a.timestamp));
+                                                            }}
+                                                            className="text-red-600 hover:text-red-800 transition-colors duration-150"
+                                                        >
+                                                            Xóa
+                                                        </button>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         );
