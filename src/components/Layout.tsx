@@ -13,15 +13,17 @@ export default function Layout({ children }: LayoutProps) {
   const getBackgroundColor = (pathname: string) => {
     switch (pathname) {
       case '/':
-        return 'bg-gradient-to-br from-blue-50 to-indigo-100'; // Home: Blue gradient
+        return 'bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-900 dark:to-slate-800';
       case '/input':
-        return 'bg-gradient-to-br from-green-50 to-emerald-100'; // Input: Green gradient
+        return 'bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-900 dark:to-slate-800';
       case '/result':
-        return 'bg-gradient-to-br from-purple-50 to-violet-100'; // Result: Purple gradient
+        return 'bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-900 dark:to-slate-800';
+      case '/results':
+        return 'bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-900 dark:to-slate-800';
       case '/history':
-        return 'bg-gradient-to-br from-orange-50 to-amber-100'; // History: Orange gradient
+        return 'bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-900 dark:to-slate-800';
       default:
-        return 'bg-gray-50'; // Default
+        return 'bg-[#f9fafb] dark:bg-[#0f172a]';
     }
   };
 

@@ -48,7 +48,7 @@ const API_BASE = import.meta.env.VITE_API_BASE || "";
 
 export async function predictInteraction(input: PredictInput): Promise<PredictResponse> {
     // Use relative path to leverage Vite proxy
-    const url = API_BASE ? `${API_BASE}/api/predict` : "/api/predict";
+    const url = API_BASE ? `${API_BASE}/predict` : "/predict";
     console.log("Calling API:", url);
     
     const res = await fetch(url, {
@@ -65,7 +65,7 @@ export async function predictInteraction(input: PredictInput): Promise<PredictRe
 }
 
 export async function predictManual(input: ManualPredictInput): Promise<ManualPredictResponse> {
-    const url = API_BASE ? `${API_BASE}/api/predict` : "/api/predict";
+    const url = API_BASE ? `${API_BASE}/predict` : "/predict";
     console.log("Calling manual predict API:", url);
     
     const res = await fetch(url, {
@@ -82,7 +82,7 @@ export async function predictManual(input: ManualPredictInput): Promise<ManualPr
 }
 
 export async function predictUpload(fastaFile: File, pairsFile: File): Promise<UploadPredictResponse> {
-    const url = API_BASE ? `${API_BASE}/api/predict/batch` : "/api/predict/batch";
+    const url = API_BASE ? `${API_BASE}/predict/batch` : "/predict/batch";
     console.log("Calling upload predict API:", url);
     
     const formData = new FormData();

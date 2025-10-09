@@ -16,10 +16,10 @@ export default function DataInputPage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Dự đoán tương tác Protein-Protein</h1>
+      <h1 className="text-3xl font-bold mb-6 text-slate-900 dark:text-slate-100">Dự đoán tương tác Protein-Protein</h1>
       
       {/* Tab Navigation */}
-      <div className="border-b border-gray-200 mb-6">
+      <div className="border-b border-gray-200 dark:border-slate-700 mb-6">
         <nav className="-mb-px flex space-x-8">
           {tabs.map((tab) => (
             <button
@@ -27,8 +27,8 @@ export default function DataInputPage() {
               onClick={() => setActiveTab(tab.id)}
               className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
                 activeTab === tab.id
-                  ? 'border-b-2 border-blue-600 text-blue-600 font-semibold'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-blue-600 dark:border-blue-500 text-blue-700 dark:text-blue-400'
+                  : 'border-transparent text-slate-700 dark:text-slate-300 hover:text-blue-700 dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-slate-600'
               }`}
             >
               {tab.label}

@@ -28,7 +28,6 @@ export default function ResultPage() {
     const [isLoadingPreview, setIsLoadingPreview] = useState(false);
     const tableRef = useRef<HTMLTableElement | null>(null);
 
-    // Helper: safely render values to avoid "Objects are not valid as a React child"
     const renderCell = (value: unknown) => {
         if (value === null || value === undefined) return "";
         if (typeof value === "object") return JSON.stringify(value);
@@ -54,19 +53,18 @@ export default function ResultPage() {
         }
         setBatchRows(parsed);
         setIsLoadingPreview(false);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state?.batchText]);
 
     if (!state || (!state.result && !state.data && !state.downloadUrl && !state.batchText)) {
         return (
             <div>
-                <h1 className="text-3xl font-bold mb-6 text-gray-800">Kết quả dự đoán</h1>
-                <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-md mb-4">
+                <h1 className="text-3xl font-bold mb-6 text-slate-900 dark:text-slate-100">Kết quả dự đoán</h1>
+                <div className="bg-blue-50 dark:bg-slate-700 border border-blue-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 px-4 py-3 rounded-md mb-4">
                     <h2 className="text-xl font-bold mb-2">Chưa có kết quả nào</h2>
                     <p>Vui lòng thực hiện dự đoán trước.</p>
                 </div>
                 <button 
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition-colors"
+                    className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white px-4 py-2 rounded-lg shadow"
                     onClick={() => navigate("/input")}
                 >
                     Quay lại nhập dữ liệu
@@ -75,7 +73,7 @@ export default function ResultPage() {
         );
     }
 
-    // Batch text view with download buttons (TXT + PDF)
+    // Batch text view with download buttons (txt)
     if (state?.batchText && !state.downloadUrl) {
         const downloadTxt = () => {
             if (!state?.batchText) return;
@@ -92,12 +90,12 @@ export default function ResultPage() {
 
         return (
             <div>
-                <h1 className="text-3xl font-bold mb-6 text-gray-800">Kết quả dự đoán</h1>
+                <h1 className="text-3xl font-bold mb-6 text-slate-900 dark:text-slate-100">Kết quả dự đoán</h1>
 
                 {state.inputFiles && (
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                        <h2 className="text-lg font-semibold text-blue-800 mb-2">File đã upload:</h2>
-                        <div className="space-y-1 text-sm text-blue-700">
+                    <div className="bg-blue-50 dark:bg-slate-700 border border-blue-200 dark:border-slate-700 rounded-lg p-4 mb-6">
+                        <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">File đã upload:</h2>
+                        <div className="space-y-1 text-sm text-slate-700 dark:text-slate-300">
                             {state.inputFiles.fastaFile && <p>• FASTA: {state.inputFiles.fastaFile}</p>}
                             {state.inputFiles.pairsFile && <p>• Pairs: {state.inputFiles.pairsFile}</p>}
                         </div>
@@ -108,38 +106,38 @@ export default function ResultPage() {
                 <div className="flex flex-wrap items-center gap-3 mb-4">
                     <button
                         onClick={downloadTxt}
-                        className="inline-flex items-center bg-blue-600 text-black px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition-colors font-medium"
+                        className="inline-flex items-center bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white px-4 py-2 rounded-lg shadow font-medium"
                     >
                         Tải về
                     </button>
                 </div>
 
                 {/* Results Table */}
-                <div className="overflow-x-auto bg-white shadow-md rounded-xl">
+                <div className="overflow-x-auto bg-white dark:bg-slate-800 shadow-md rounded-xl border border-gray-200 dark:border-slate-700">
                     <table ref={tableRef} className="table-auto w-full border-collapse border border-gray-300">
-                        <thead className="bg-gray-50">
+                        <thead className="bg-blue-50 dark:bg-slate-700">
                             <tr>
-                                <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase border border-gray-300">Protein 1</th>
-                                <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase border border-gray-300">Protein 2</th>
-                                <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase border border-gray-300">Score</th>
+                                <th className="px-4 py-2 text-left text-xs font-medium text-slate-600 dark:text-slate-200 uppercase border border-gray-300 dark:border-slate-700">Protein 1</th>
+                                <th className="px-4 py-2 text-left text-xs font-medium text-slate-600 dark:text-slate-200 uppercase border border-gray-300 dark:border-slate-700">Protein 2</th>
+                                <th className="px-4 py-2 text-left text-xs font-medium text-slate-600 dark:text-slate-200 uppercase border border-gray-300 dark:border-slate-700">Score</th>
                             </tr>
                         </thead>
                         <tbody>
                             {isLoadingPreview && (
                                 <tr>
-                                    <td className="px-4 py-3 text-sm text-gray-700 border border-gray-300" colSpan={3}>Đang tải...</td>
+                                    <td className="px-4 py-3 text-sm text-slate-700 dark:text-slate-300 border border-gray-300 dark:border-slate-700" colSpan={3}>Đang tải...</td>
                                 </tr>
                             )}
                             {!isLoadingPreview && batchRows.length === 0 && (
                                 <tr>
-                                    <td className="px-4 py-3 text-sm text-gray-700 border border-gray-300" colSpan={3}>Không có dữ liệu</td>
+                                    <td className="px-4 py-3 text-sm text-slate-700 dark:text-slate-300 border border-gray-300 dark:border-slate-700" colSpan={3}>Không có dữ liệu</td>
                                 </tr>
                             )}
                             {batchRows.map((row, idx) => (
-                                <tr key={`${row.id1}-${row.id2}-${idx}`} className={idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                                    <td className="px-4 py-3 text-sm text-gray-900 border border-gray-300 whitespace-nowrap">{row.id1}</td>
-                                    <td className="px-4 py-3 text-sm text-gray-900 border border-gray-300 whitespace-nowrap">{row.id2}</td>
-                                    <td className="px-4 py-3 text-sm text-gray-900 border border-gray-300 whitespace-nowrap">{row.score.toFixed(4)}</td>
+                                <tr key={`${row.id1}-${row.id2}-${idx}`} className={idx % 2 === 0 ? 'bg-white dark:bg-slate-800' : 'bg-gray-50 dark:bg-slate-800/60'}>
+                                    <td className="px-4 py-3 text-sm text-slate-900 dark:text-slate-100 border border-gray-300 dark:border-slate-700 whitespace-nowrap">{row.id1}</td>
+                                    <td className="px-4 py-3 text-sm text-slate-900 dark:text-slate-100 border border-gray-300 dark:border-slate-700 whitespace-nowrap">{row.id2}</td>
+                                    <td className="px-4 py-3 text-sm text-slate-900 dark:text-slate-100 border border-gray-300 dark:border-slate-700 whitespace-nowrap">{row.score.toFixed(4)}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -149,13 +147,13 @@ export default function ResultPage() {
                 {/* Action Buttons */}
                 <div className="flex justify-center gap-4 mt-6">
                     <button 
-                        className="bg-blue-600 text-black px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition-colors"
+                        className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white px-4 py-2 rounded-lg shadow"
                         onClick={() => navigate("/input")}
                     >
                         Dự đoán lại
                     </button>
                     <button 
-                        className="bg-gray-600 text-black px-4 py-2 rounded-lg shadow hover:bg-gray-700 transition-colors"
+                        className="bg-slate-700 text-white px-4 py-2 rounded-lg shadow hover:bg-slate-800"
                         onClick={() => navigate("/history")}
                     >
                         Xem lịch sử
@@ -169,13 +167,13 @@ export default function ResultPage() {
     if (state.downloadUrl) {
         return (
             <div>
-                <h1 className="text-3xl font-bold mb-6 text-gray-800">Kết quả dự đoán</h1>
+                <h1 className="text-3xl font-bold mb-6 text-emerald-800">Kết quả dự đoán</h1>
                 
                 {/* Input Files Info */}
                 {state.inputFiles && (
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                        <h2 className="text-lg font-semibold text-blue-800 mb-2">File đã upload:</h2>
-                        <div className="space-y-1 text-sm text-blue-700">
+                    <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4 mb-6">
+                        <h2 className="text-lg font-semibold text-emerald-800 mb-2">File đã upload:</h2>
+                        <div className="space-y-1 text-sm text-emerald-700">
                             {state.inputFiles.fastaFile && <p>• FASTA: {state.inputFiles.fastaFile}</p>}
                             {state.inputFiles.pairsFile && <p>• Pairs: {state.inputFiles.pairsFile}</p>}
                         </div>
@@ -185,22 +183,22 @@ export default function ResultPage() {
                 {/* Download Section */}
                 <div className="bg-white shadow-md rounded-xl p-6">
                     <div className="mb-4">
-                        <svg className="mx-auto h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="mx-auto h-12 w-12 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                     </div>
-                    <h2 className="text-xl font-semibold text-green-800 mb-2 text-center">Dự đoán hoàn tất!</h2>
-                    <p className="text-green-700 mb-4 text-center">Kết quả đã được xử lý. Xem bản xem trước hoặc tải file đầy đủ.</p>
+                    <h2 className="text-xl font-semibold text-emerald-800 mb-2 text-center">Dự đoán hoàn tất!</h2>
+                    <p className="text-emerald-700 mb-4 text-center">Kết quả đã được xử lý. Xem bản xem trước hoặc tải file đầy đủ.</p>
 
                     {/* Preview Table for batch results */}
                     <div className="mt-4">
                         <div className="flex items-center justify-between mb-2">
-                            <p className="text-sm text-gray-600">Bản xem trước</p>
+                            <p className="text-sm text-emerald-700">Bản xem trước</p>
                             <div className="flex items-center gap-2">
                                 <a
                                     href={state.downloadUrl}
                                     download={state.fileName || 'ppi_results.txt'}
-                                    className="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition-colors font-medium"
+                                    className="inline-flex items-center bg-emerald-600 text-white px-4 py-2 rounded-lg shadow hover:bg-emerald-700 transition-colors font-medium"
                                 >
                                     Tải TXT
                                 </a>
@@ -209,22 +207,22 @@ export default function ResultPage() {
 
                         <div className="overflow-x-auto">
                             <table className="table-auto w-full border-collapse border border-gray-300">
-                                <thead className="bg-gray-50">
+                                <thead className="bg-emerald-50">
                                     <tr>
-                                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase border border-gray-300">Protein 1</th>
-                                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase border border-gray-300">Protein 2</th>
-                                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase border border-gray-300">Score</th>
+                                        <th className="px-4 py-2 text-left text-xs font-medium text-emerald-700 uppercase border border-gray-300">Protein 1</th>
+                                        <th className="px-4 py-2 text-left text-xs font-medium text-emerald-700 uppercase border border-gray-300">Protein 2</th>
+                                        <th className="px-4 py-2 text-left text-xs font-medium text-emerald-700 uppercase border border-gray-300">Score</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {isLoadingPreview && (
                                         <tr>
-                                            <td className="px-4 py-3 text-sm text-gray-700 border border-gray-300" colSpan={3}>Đang tải...</td>
+                                            <td className="px-4 py-3 text-sm text-emerald-700 border border-gray-300" colSpan={3}>Đang tải...</td>
                                         </tr>
                                     )}
                                     {!isLoadingPreview && batchRows.length === 0 && (
                                         <tr>
-                                            <td className="px-4 py-3 text-sm text-gray-700 border border-gray-300" colSpan={3}>Không có dữ liệu xem trước</td>
+                                            <td className="px-4 py-3 text-sm text-emerald-700 border border-gray-300" colSpan={3}>Không có dữ liệu xem trước</td>
                                         </tr>
                                     )}
                                     {batchRows.slice(0, 50).map((row, idx) => (
@@ -243,13 +241,13 @@ export default function ResultPage() {
                 {/* Action Buttons */}
                 <div className="flex justify-center gap-4 mt-6">
                     <button 
-                        className="bg-blue-600 text-black px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition-colors"
+                        className="bg-emerald-600 text-white px-4 py-2 rounded-lg shadow hover:bg-emerald-700 transition-colors"
                         onClick={() => navigate("/input")}
                     >
                         Dự đoán lại
                     </button>
                     <button 
-                        className="bg-gray-600 text-black px-4 py-2 rounded-lg shadow hover:bg-gray-700 transition-colors"
+                        className="bg-gray-700 text-white px-4 py-2 rounded-lg shadow hover:bg-gray-800 transition-colors"
                         onClick={() => navigate("/history")}
                     >
                         Xem lịch sử
@@ -265,13 +263,13 @@ export default function ResultPage() {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold mb-6 text-gray-800">Kết quả dự đoán</h1>
+            <h1 className="text-3xl font-bold mb-6 text-emerald-800">Kết quả dự đoán</h1>
             
             {/* Input Data Info */}
             {state.inputData && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                    <h2 className="text-lg font-semibold text-blue-800 mb-2">Dữ liệu đầu vào:</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-blue-700">
+                <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4 mb-6">
+                    <h2 className="text-lg font-semibold text-emerald-800 mb-2">Dữ liệu đầu vào:</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-emerald-700">
                         <div>
                             <p><strong>Protein 1:</strong> {renderCell(state.inputData.id1 ?? state.inputData.protein1Id)}</p>
                             <p className="truncate"><strong>Sequence 1:</strong> {renderCell((state.inputData.seq1 ?? state.inputData.protein1Sequence)?.substring ? (state.inputData.seq1 ?? state.inputData.protein1Sequence).substring(0, 50) + '...' : state.inputData.seq1 ?? state.inputData.protein1Sequence)}</p>
@@ -286,8 +284,8 @@ export default function ResultPage() {
 
             {/* Results Table */}
             <div className="bg-white shadow-md rounded-xl overflow-hidden">
-                <div className="px-6 py-4 bg-gray-50 border-b">
-                    <h2 className="text-lg font-semibold text-gray-800">
+                <div className="px-6 py-4 bg-emerald-50 border-b border-emerald-100">
+                    <h2 className="text-lg font-semibold text-emerald-800">
                         {isSinglePredict ? 'Kết quả dự đoán' : `Kết quả (${results.length} cặp protein)`}
                     </h2>
                 </div>
@@ -296,15 +294,15 @@ export default function ResultPage() {
                     {/* Single predict: show detailed columns */}
                     {isSinglePredict ? (
                         <table className="table-auto w-full border-collapse border border-gray-300">
-                            <thead className="bg-gray-50">
+                            <thead className="bg-emerald-50">
                                 <tr>
-                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase border border-gray-300">Protein 1</th>
-                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase border border-gray-300">Protein 2</th>
-                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase border border-gray-300">Model</th>
-                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase border border-gray-300">Score</th>
-                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase border border-gray-300">Label</th>
-                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase border border-gray-300">Threshold</th>
-                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase border border-gray-300">Timestamp</th>
+                                    <th className="px-4 py-2 text-left text-xs font-medium text-emerald-700 uppercase border border-gray-300">Protein 1</th>
+                                    <th className="px-4 py-2 text-left text-xs font-medium text-emerald-700 uppercase border border-gray-300">Protein 2</th>
+                                    <th className="px-4 py-2 text-left text-xs font-medium text-emerald-700 uppercase border border-gray-300">Model</th>
+                                    <th className="px-4 py-2 text-left text-xs font-medium text-emerald-700 uppercase border border-gray-300">Score</th>
+                                    <th className="px-4 py-2 text-left text-xs font-medium text-emerald-700 uppercase border border-gray-300">Label</th>
+                                    <th className="px-4 py-2 text-left text-xs font-medium text-emerald-700 uppercase border border-gray-300">Threshold</th>
+                                    <th className="px-4 py-2 text-left text-xs font-medium text-emerald-700 uppercase border border-gray-300">Timestamp</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -338,13 +336,13 @@ export default function ResultPage() {
                     ) : (
                         // Multiple JSON results fallback (if any): simple columns
                         <table className="table-auto w-full border-collapse border border-gray-300">
-                            <thead className="bg-gray-50">
+                            <thead className="bg-emerald-50">
                                 <tr>
-                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase border border-gray-300">Protein 1</th>
-                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase border border-gray-300">Protein 2</th>
-                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase border border-gray-300">Score</th>
-                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase border border-gray-300">Label</th>
-                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-600 uppercase border border-gray-300">Threshold</th>
+                                    <th className="px-4 py-2 text-left text-xs font-medium text-emerald-700 uppercase border border-gray-300">Protein 1</th>
+                                    <th className="px-4 py-2 text-left text-xs font-medium text-emerald-700 uppercase border border-gray-300">Protein 2</th>
+                                    <th className="px-4 py-2 text-left text-xs font-medium text-emerald-700 uppercase border border-gray-300">Score</th>
+                                    <th className="px-4 py-2 text-left text-xs font-medium text-emerald-700 uppercase border border-gray-300">Label</th>
+                                    <th className="px-4 py-2 text-left text-xs font-medium text-emerald-700 uppercase border border-gray-300">Threshold</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -373,13 +371,13 @@ export default function ResultPage() {
             {/* Action Buttons */}
             <div className="flex justify-center gap-4 mt-6">
                 <button 
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition-colors"
+                    className="bg-emerald-600 text-white px-4 py-2 rounded-lg shadow hover:bg-emerald-700 transition-colors"
                     onClick={() => navigate("/input")}
                 >
                     Dự đoán lại
                 </button>
                 <button 
-                    className="bg-gray-600 text-white px-4 py-2 rounded-lg shadow hover:bg-gray-700 transition-colors"
+                    className="bg-gray-700 text-white px-4 py-2 rounded-lg shadow hover:bg-gray-800 transition-colors"
                     onClick={() => navigate("/history")}
                 >
                     Xem lịch sử
